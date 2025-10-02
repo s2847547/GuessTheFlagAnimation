@@ -81,6 +81,10 @@ struct ContentView: View {
                                     selectedFlag == nil
                                         || selectedFlag == number ? 1 : 0.25
                                 )
+                                .scaleEffect(
+                                    selectedFlag == nil
+                                        || selectedFlag == number ? 1.0 : 0.75
+                                    )
                                 .animation(
                                     .easeInOut(duration: 0.6),
                                     value: animationAmount[number]
