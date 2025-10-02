@@ -24,6 +24,8 @@ struct ContentView: View {
 
     @State private var animationAmount = [0.0, 0.0, 0.0]
 
+    @State private var selectedFlag: Int? = nil
+
     var body: some View {
         ZStack {
             RadialGradient(
@@ -62,6 +64,7 @@ struct ContentView: View {
 
                     ForEach(0..<3) { number in
                         Button {
+                            selectedFlag = number
                             flagTapped(number)
                             withAnimation {
                                 animationAmount[number] += 360
@@ -73,6 +76,10 @@ struct ContentView: View {
                                 .rotation3DEffect(
                                     .degrees(animationAmount[number]),
                                     axis: (x: 0, y: 1, z: 0)
+                                )
+                                .opacity(
+                                    selectedFlag == nil
+                                        || selectedFlag == number ? 1 : 0.25
                                 )
                                 .animation(
                                     .easeInOut(duration: 0.6),
@@ -134,6 +141,7 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        selectedFlag = nil
     }
 
     func resetGame() {
@@ -141,6 +149,7 @@ struct ContentView: View {
         questionsAsked = 0
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        selectedFlag = nil
     }
 
     func finalVerdict() -> String {
